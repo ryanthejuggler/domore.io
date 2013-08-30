@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1 dashboard for&nbsp;
+    span= user.username
+  div(ng-controller="todo-ctrl")
+    button.btn Add task
+
+
+
+
+block scripts
+  script.(language="JavaScript")
+    words = ['wikis','programs','documents', 'specifications','meetings','lists'];
+    n = 0;
+    setInterval(function(){
+      $('#roller').text(words[n++]);
+      n%=words.length;
+    }, 1000);

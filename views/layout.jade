@@ -1,5 +1,5 @@
 !!! 5
-html(lang='en')
+html(lang='en', ng-app)
 head
   meta(charset='utf-8')
   title domore.io
@@ -49,8 +49,10 @@ head
           .nav-collapse.collapse
             p.navbar-text.pull-right
               if user
-                  | Logged in as&nbsp;
                   a.navbar-link(href='#')= user.username
+                  sub
+                   small
+                    a.navbar-link(href='/logout', title='log out') log out
               else
                   a.navbar-link(href='/login') Log in
             ul.nav

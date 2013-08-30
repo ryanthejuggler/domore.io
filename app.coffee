@@ -30,8 +30,6 @@ app.use express.methodOverride()
 app.use express.cookieParser("SOMESECRET")
 app.use express.session
   secret: "SOMESECRET"
-  cookie:
-    maxAge: 60000
 app.use passport.initialize()
 app.use passport.session()
 app.use app.router
@@ -52,14 +50,25 @@ passport.deserializeUser (id, done) ->
 
 # development only
 app.use express.errorHandler()  if "development" is app.get("env")
+
+
+
 app.get "/", (req, res) ->
-  res.render 'index',
-    user: req.user
+  if req.user
+    res.render 'dash',
+      user: req.user
+  else
+    res.render 'index'
 app.get "/users", user.list
 app.get "/register", register
 app.post "/register", doRegister
 app.get "/login", login
 app.post "/login", passport.authenticate('local', { successRedirect:'/',failureRedirect: '/fail' })
+
+app.get "/logout", (req, res) ->
+  req.logout()
+  res.render 'index'
+
 db.connect ->
   http.createServer(app).listen app.get("port"), ->
     console.log "Express server listening on port " + app.get("port")

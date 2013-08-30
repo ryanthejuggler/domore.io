@@ -52,10 +52,7 @@ Module dependencies.
   app.use(express.cookieParser("SOMESECRET"));
 
   app.use(express.session({
-    secret: "SOMESECRET",
-    cookie: {
-      maxAge: 60000
-    }
+    secret: "SOMESECRET"
   }));
 
   app.use(passport.initialize());
@@ -86,9 +83,13 @@ Module dependencies.
   }
 
   app.get("/", function(req, res) {
-    return res.render('index', {
-      user: req.user
-    });
+    if (req.user) {
+      return res.render('dash', {
+        user: req.user
+      });
+    } else {
+      return res.render('index');
+    }
   });
 
   app.get("/users", user.list);
@@ -103,6 +104,11 @@ Module dependencies.
     successRedirect: '/',
     failureRedirect: '/fail'
   }));
+
+  app.get("/logout", function(req, res) {
+    req.logout();
+    return res.render('index');
+  });
 
   db.connect(function() {
     return http.createServer(app).listen(app.get("port"), function() {

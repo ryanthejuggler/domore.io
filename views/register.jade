@@ -1,0 +1,23 @@
+extends layout
+
+block content
+  h1 Register
+  form.form-horizontal(method='post')
+    fieldset
+      .control-group
+        label.control-label(for='username') Username
+        .controls
+          input#username.input-xlarge(type='text', name='username')
+      .control-group
+        label.control-label(for='password') Password
+        .controls
+          input#password.input-xlarge(type='password', name='password')
+      .control-group
+        label.control-label(for='password') Repeat password
+          .controls
+            input#password-again.input-xlarge(type='password', name='passwordAgain')
+      .form-actions
+        button.btn.btn-primary(type='submit') Submit
+
+block scripts
+  

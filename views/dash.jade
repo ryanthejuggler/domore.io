@@ -4,9 +4,13 @@ block content
   h1 dashboard for
     = " "+user.username
   div
-    a.btn.btn-success(data-toggle="modal" href="#addTask")
-      .glyphicon.glyphicon-plus
-      |  add task
+    .input-group
+      .input-group-addon
+        span#entry-prefix >_
+      input.form-control(style="width:100%")
+      .input-group-btn: a.btn.btn-success
+        .glyphicon.glyphicon-play
+        |  crunch that
 
 
 

@@ -63,11 +63,11 @@ Module dependencies.
 
   app.use(passport.session());
 
-  app.use(app.router);
-
   app.use(require("stylus").middleware(__dirname + "/public"));
 
   app.use(express["static"](path.join(__dirname, "public")));
+
+  app.use(app.router);
 
   passport.use(new LocalStrategy(function(username, password, done) {
     console.log("LocalStrategy invoked");
@@ -122,6 +122,12 @@ Module dependencies.
   });
 
   require('./routes/frontmatter')(app);
+
+  app.get('*', function(req, res) {
+    return res.render('404', {
+      title: '404'
+    });
+  });
 
   db.connect(function() {
     return http.createServer(app).listen(app.get("port"), function() {

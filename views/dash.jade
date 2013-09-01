@@ -3,16 +3,49 @@ extends layout
 block content
   h1 dashboard for
     = " "+user.username
-  //div
+  div(style="padding-bottom:20px")
     .input-group
       .input-group-addon
-        span#entry-prefix >_
-      input.form-control(style="width:100%")
-      .input-group-btn: a.btn.btn-success
+        span#entry-prefix: b >_
+      input.form-control#entry(style="width:100%", autocomplete="false")
+      .input-group-btn: a.btn.btn-success#crunch
         .glyphicon.glyphicon-play
         |  crunch that
-
+  #results
 
 
 
 block scripts
+  script(type="text/javascript", src="/js/jquery.timeago.js")
+  script.
+    function addPanel(panel){
+      var $panel = $(panel);
+      $('#results').prepend($panel);
+      var $timeago = $panel.find('.timeago');
+      $timeago.text( new Date($timeago.attr('title')).toLocaleString());
+      $panel.find('.timeago').timeago();
+    }
+    $.ajax({
+      type: 'GET',
+      url: 'ajax/snippets/get',
+      success: function(data) {
+        if(!data.ok) return;
+        for(var i=0;i<data.panels.length;i++){
+          addPanel(data.panels[i]);
+        }
+      }
+    });
+    $('#crunch').click( function() {
+      var $entry = $('#entry');
+      $.ajax({
+        type: 'POST',
+        url: 'ajax/snippets/new',
+        data: {entry:$entry.val()},
+        success: function(data) {
+          if(!data.ok) return;
+
+        },
+        error: console.log.bind(console),
+        dataType: 'json'
+      });
+    });

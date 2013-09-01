@@ -52,17 +52,3 @@ class Task
         safe: true
       , (err) ->
         callback err
-
-###*
-  @method load
-  @static
-###
-Task.load = (owner, id, callback) ->
-  db.collection 'tasks', (err,cxn) ->
-    cxn.findOne
-      'providers.$.provider': provider
-      'providers.$.id': id
-    ,
-      safe: true
-    , (err, userData) ->
-      callback err, new Task userData

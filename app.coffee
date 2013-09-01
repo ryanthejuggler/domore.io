@@ -49,12 +49,12 @@ passport.serializeUser (user, done) ->
 passport.deserializeUser (id, done) ->
   User.getByID id, done
 
-
 # development only
 app.use express.errorHandler()  if "development" is app.get("env")
 
 app.locals
   version: packageMeta.version
+  timeago: require 'timeago'
 
 app.get "/", (req, res) ->
   if req.user
@@ -75,7 +75,7 @@ app.get "/logout", (req, res) ->
   res.render 'index'
 
 require('./routes/frontmatter') app
-
+require('./routes/snippets') app
 
 app.get '*', (req, res) ->
   res.render '404',

@@ -131,7 +131,6 @@
       return cxn.findOne({
         _id: new ObjectID(id)
       }, function(err, userData) {
-        console.log(userData);
         if (userData) {
           return callback(err, new User(userData));
         } else {

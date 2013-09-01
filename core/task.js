@@ -93,23 +93,4 @@
 
   })();
 
-  /**
-    @method load
-    @static
-  */
-
-
-  Task.load = function(owner, id, callback) {
-    return db.collection('tasks', function(err, cxn) {
-      return cxn.findOne({
-        'providers.$.provider': provider,
-        'providers.$.id': id
-      }, {
-        safe: true
-      }, function(err, userData) {
-        return callback(err, new Task(userData));
-      });
-    });
-  };
-
 }).call(this);

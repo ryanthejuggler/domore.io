@@ -87,7 +87,8 @@ Module dependencies.
   }
 
   app.locals({
-    version: packageMeta.version
+    version: packageMeta.version,
+    timeago: require('timeago')
   });
 
   app.get("/", function(req, res) {
@@ -122,6 +123,8 @@ Module dependencies.
   });
 
   require('./routes/frontmatter')(app);
+
+  require('./routes/snippets')(app);
 
   app.get('*', function(req, res) {
     return res.render('404', {

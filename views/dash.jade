@@ -1,10 +1,12 @@
 extends layout
 
 block content
-  h1 dashboard for&nbsp;
-    span= user.username
-  div(ng-controller="todo-ctrl")
-    button.btn Add task
+  h1 dashboard for
+    = " "+user.username
+  div
+    a.btn.btn-success(data-toggle="modal" href="#addTask")
+      .glyphicon.glyphicon-plus
+      |  add task
 
 
 

@@ -85,10 +85,13 @@ Module dependencies.
   app.get("/", function(req, res) {
     if (req.user) {
       return res.render('dash', {
-        user: req.user
+        user: req.user,
+        title: req.user.username + "'s dash"
       });
     } else {
-      return res.render('index');
+      return res.render('index', {
+        title: 'home'
+      });
     }
   });
 

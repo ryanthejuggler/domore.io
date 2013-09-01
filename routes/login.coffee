@@ -3,7 +3,7 @@ User = require '../core/user'
 
 exports.login = (req, res) ->
   res.render 'login',
-    title: 'login | domore.io'
+    title: 'log in'
 
 exports.doLogin = (req, res) ->
   if req.body.passwordAgain isnt req.body.password

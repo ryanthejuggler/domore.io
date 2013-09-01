@@ -57,8 +57,10 @@ app.get "/", (req, res) ->
   if req.user
     res.render 'dash',
       user: req.user
+      title: req.user.username+"'s dash"
   else
-    res.render 'index'
+    res.render 'index',
+      title: 'home'
 app.get "/users", user.list
 app.get "/register", register
 app.post "/register", doRegister

@@ -15,6 +15,8 @@ passport = require 'passport'
 User = require './core/user'
 LocalStrategy = require('passport-local').Strategy
 db = require './core/db'
+packageMeta = require './package'
+md = require('node-markdown').Markdown
 
 # all environments
 app.set "port", process.env.PORT or 3000
@@ -51,7 +53,8 @@ passport.deserializeUser (id, done) ->
 # development only
 app.use express.errorHandler()  if "development" is app.get("env")
 
-
+app.locals
+  version: packageMeta.version
 
 app.get "/", (req, res) ->
   if req.user
@@ -70,6 +73,8 @@ app.post "/login", passport.authenticate('local', { successRedirect:'/',failureR
 app.get "/logout", (req, res) ->
   req.logout()
   res.render 'index'
+
+require('./routes/frontmatter') app
 
 db.connect ->
   http.createServer(app).listen app.get("port"), ->

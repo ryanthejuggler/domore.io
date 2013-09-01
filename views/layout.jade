@@ -30,12 +30,12 @@ body(style="padding-top:60px;")
         .navbar-right
         .collapse.navbar-collapse
           ul.nav.navbar-nav.navbar-right
-            li.active
-              a(href='#') dash
             if user
+              li.active: a(href='#') dash
               li: a.navbar-link(href='#')= user.username
               li: a.navbar-link(href='/logout', title='log out') log out
             else
+              li.active: a(href='/') home
               li: a.navbar-link(href='/login') log in
     .container
       block content
@@ -45,5 +45,9 @@ body(style="padding-top:60px;")
     .container
       .text-muted.credit
         a(href='/') domore.io
-        |  &copy; 2013 Ryan Muller |&nbsp;
-        a(href='http://glyphicons.com/') icons
+        |  &copy; 2013 ryan muller | version&nbsp;
+        a(href='/changelog')= version
+        |  | powered by&nbsp;
+        a(href='http://nodejs.org') node.js
+        |  | icons by&nbsp;
+        a(href='http://glyphicons.com/') jan kovařík

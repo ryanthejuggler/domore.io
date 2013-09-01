@@ -3,7 +3,7 @@ extends layout
 block content
   h1 dashboard for
     = " "+user.username
-  div
+  //div
     .input-group
       .input-group-addon
         span#entry-prefix >_
@@ -16,10 +16,3 @@ block content
 
 
 block scripts
-  script.(language="JavaScript")
-    words = ['wikis','programs','documents', 'specifications','meetings','lists'];
-    n = 0;
-    setInterval(function(){
-      $('#roller').text(words[n++]);
-      n%=words.length;
-    }, 1000);

@@ -27,3 +27,7 @@ body {
 .container .credit {
     margin: 20px 0;
 }
+
+#footer a{
+    color: #777;
+}

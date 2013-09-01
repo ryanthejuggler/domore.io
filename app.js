@@ -5,7 +5,7 @@ Module dependencies.
 
 
 (function() {
-  var LocalStrategy, User, app, db, doLogin, doRegister, express, flash, http, login, passport, path, register, routes, user, _ref, _ref1;
+  var LocalStrategy, User, app, db, doLogin, doRegister, express, flash, http, login, md, packageMeta, passport, path, register, routes, user, _ref, _ref1;
 
   express = require("express");
 
@@ -32,6 +32,10 @@ Module dependencies.
   LocalStrategy = require('passport-local').Strategy;
 
   db = require('./core/db');
+
+  packageMeta = require('./package');
+
+  md = require('node-markdown').Markdown;
 
   app.set("port", process.env.PORT || 3000);
 
@@ -82,6 +86,10 @@ Module dependencies.
     app.use(express.errorHandler());
   }
 
+  app.locals({
+    version: packageMeta.version
+  });
+
   app.get("/", function(req, res) {
     if (req.user) {
       return res.render('dash', {
@@ -112,6 +120,8 @@ Module dependencies.
     req.logout();
     return res.render('index');
   });
+
+  require('./routes/frontmatter')(app);
 
   db.connect(function() {
     return http.createServer(app).listen(app.get("port"), function() {

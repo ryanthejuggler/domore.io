@@ -34,9 +34,9 @@ app.use express.session
   secret: "SOMESECRET"
 app.use passport.initialize()
 app.use passport.session()
-app.use app.router
 app.use require("stylus").middleware(__dirname + "/public")
 app.use express.static(path.join(__dirname, "public"))
+app.use app.router
 
 passport.use new LocalStrategy  (username, password, done) ->
   console.log "LocalStrategy invoked"
@@ -49,12 +49,12 @@ passport.serializeUser (user, done) ->
 passport.deserializeUser (id, done) ->
   User.getByID id, done
 
-
 # development only
 app.use express.errorHandler()  if "development" is app.get("env")
 
 app.locals
   version: packageMeta.version
+  timeago: require 'timeago'
 
 app.get "/", (req, res) ->
   if req.user
@@ -75,6 +75,11 @@ app.get "/logout", (req, res) ->
   res.render 'index'
 
 require('./routes/frontmatter') app
+require('./routes/snippets') app
+
+app.get '*', (req, res) ->
+  res.render '404',
+    title: '404'
 
 db.connect ->
   http.createServer(app).listen app.get("port"), ->

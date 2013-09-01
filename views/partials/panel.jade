@@ -1,0 +1,13 @@
+case handler
+  when 'note'
+    - panelClass = 'panel panel-success'
+    - title = 'note'
+  default
+    - panelClass = 'panel panel-default'
+    - title = 'data'
+div(class=panelClass)
+  .panel-heading
+    h3.panel-title!= title + " &mdash; "
+      span.text-right.timeago(title=ts.toISOString())
+  .panel-body
+    = content

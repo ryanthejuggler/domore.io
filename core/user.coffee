@@ -88,7 +88,6 @@ User.getByID = (id, callback) ->
     cxn.findOne
       _id:new ObjectID id
     , (err, userData) ->
-      console.log userData
       if userData
         callback err, new User userData
       else

@@ -18,7 +18,7 @@ class User
   ###
   constructor: (config) ->
     if config?
-      {@_id, @username, @name, @providers, @profile, @password} = config
+      {@_id, @username, @name, @providers, @profile, @password, @joined} = config
 
   ###* 
     @method setBasicsFromPassport 

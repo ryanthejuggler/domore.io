@@ -19,5 +19,6 @@ exports.doRegister = (req, res) ->
     user = new User
       username: username
       password: password
+      joined: new Date
     user.save (err) ->
       res.redirect '/'

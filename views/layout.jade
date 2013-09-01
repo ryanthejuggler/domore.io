@@ -20,7 +20,7 @@ body(style="padding-top:60px;")
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.navbar-brand(href='#')
+          a.navbar-brand(href='/')
             .glyphicon.glyphicon-ok
             |  domore.io
         .navbar-right
@@ -32,7 +32,7 @@ body(style="padding-top:60px;")
               li: a.navbar-link(href='#')= user.username
               li: a.navbar-link(href='/logout', title='log out') log out
             else
-              li: a.navbar-link(href='/login') Log in
+              li: a.navbar-link(href='/login') log in
     .container
       block content
       script(src='js/jquery-1.10.2.min.js')

@@ -15,6 +15,8 @@ passport = require 'passport'
 User = require './core/user'
 LocalStrategy = require('passport-local').Strategy
 db = require './core/db'
+packageMeta = require './package'
+md = require('node-markdown').Markdown
 
 # all environments
 app.set "port", process.env.PORT or 3000
@@ -23,15 +25,13 @@ app.set "view engine", "jade"
 
 app.use flash()
 
-app.use express.favicon()
+app.use express.favicon __dirname + '/public/favicon.png'
 app.use express.logger("dev")
 app.use express.bodyParser()
 app.use express.methodOverride()
 app.use express.cookieParser("SOMESECRET")
 app.use express.session
   secret: "SOMESECRET"
-  cookie:
-    maxAge: 60000
 app.use passport.initialize()
 app.use passport.session()
 app.use app.router
@@ -52,14 +52,30 @@ passport.deserializeUser (id, done) ->
 
 # development only
 app.use express.errorHandler()  if "development" is app.get("env")
+
+app.locals
+  version: packageMeta.version
+
 app.get "/", (req, res) ->
-  res.render 'index',
-    user: req.user
+  if req.user
+    res.render 'dash',
+      user: req.user
+      title: req.user.username+"'s dash"
+  else
+    res.render 'index',
+      title: 'home'
 app.get "/users", user.list
 app.get "/register", register
 app.post "/register", doRegister
 app.get "/login", login
 app.post "/login", passport.authenticate('local', { successRedirect:'/',failureRedirect: '/fail' })
+
+app.get "/logout", (req, res) ->
+  req.logout()
+  res.render 'index'
+
+require('./routes/frontmatter') app
+
 db.connect ->
   http.createServer(app).listen app.get("port"), ->
     console.log "Express server listening on port " + app.get("port")

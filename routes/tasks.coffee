@@ -1,0 +1,1 @@
+exports.newTask = (req, res) ->

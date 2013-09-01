@@ -5,7 +5,7 @@ Module dependencies.
 
 
 (function() {
-  var LocalStrategy, User, app, db, doLogin, doRegister, express, flash, http, login, passport, path, register, routes, user, _ref, _ref1;
+  var LocalStrategy, User, app, db, doLogin, doRegister, express, flash, http, login, md, packageMeta, passport, path, register, routes, user, _ref, _ref1;
 
   express = require("express");
 
@@ -33,6 +33,10 @@ Module dependencies.
 
   db = require('./core/db');
 
+  packageMeta = require('./package');
+
+  md = require('node-markdown').Markdown;
+
   app.set("port", process.env.PORT || 3000);
 
   app.set("views", __dirname + "/views");
@@ -41,7 +45,7 @@ Module dependencies.
 
   app.use(flash());
 
-  app.use(express.favicon());
+  app.use(express.favicon(__dirname + '/public/favicon.png'));
 
   app.use(express.logger("dev"));
 
@@ -52,10 +56,7 @@ Module dependencies.
   app.use(express.cookieParser("SOMESECRET"));
 
   app.use(express.session({
-    secret: "SOMESECRET",
-    cookie: {
-      maxAge: 60000
-    }
+    secret: "SOMESECRET"
   }));
 
   app.use(passport.initialize());
@@ -85,10 +86,21 @@ Module dependencies.
     app.use(express.errorHandler());
   }
 
+  app.locals({
+    version: packageMeta.version
+  });
+
   app.get("/", function(req, res) {
-    return res.render('index', {
-      user: req.user
-    });
+    if (req.user) {
+      return res.render('dash', {
+        user: req.user,
+        title: req.user.username + "'s dash"
+      });
+    } else {
+      return res.render('index', {
+        title: 'home'
+      });
+    }
   });
 
   app.get("/users", user.list);
@@ -103,6 +115,13 @@ Module dependencies.
     successRedirect: '/',
     failureRedirect: '/fail'
   }));
+
+  app.get("/logout", function(req, res) {
+    req.logout();
+    return res.render('index');
+  });
+
+  require('./routes/frontmatter')(app);
 
   db.connect(function() {
     return http.createServer(app).listen(app.get("port"), function() {

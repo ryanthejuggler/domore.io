@@ -1,23 +1,27 @@
 extends layout
 
 block content
-  h1 Register
+  h1 register
   form.form-horizontal(method='post')
     fieldset
       .control-group
-        label.control-label(for='username') Username
+        label.control-label(for='username') username
         .controls
           input#username.input-xlarge(type='text', name='username')
       .control-group
-        label.control-label(for='password') Password
+        label.control-label(for='password') password
         .controls
           input#password.input-xlarge(type='password', name='password')
       .control-group
-        label.control-label(for='password') Repeat password
-          .controls
-            input#password-again.input-xlarge(type='password', name='passwordAgain')
+        label.control-label(for='password-again') password again
+        .controls
+          input#password-again.input-xlarge(type='password', name='passwordAgain')
+      .control-group
+        label.control-label(for='invite') invite code
+        .controls
+          input#invite.input-xlarge(type='password', name='invite')
       .form-actions
-        button.btn.btn-primary(type='submit') Submit
+        button.btn.btn-primary(type='submit') register
 
 block scripts
   

@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1 dashboard for
+    = " "+user.username
+  //div
+    .input-group
+      .input-group-addon
+        span#entry-prefix >_
+      input.form-control(style="width:100%")
+      .input-group-btn: a.btn.btn-success
+        .glyphicon.glyphicon-play
+        |  crunch that
+
+
+
+
+block scripts

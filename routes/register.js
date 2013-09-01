@@ -8,7 +8,7 @@
 
   exports.register = function(req, res) {
     return res.render('register', {
-      title: 'Register for domore.io'
+      title: 'register'
     });
   };
 
@@ -29,7 +29,8 @@
       }
       user = new User({
         username: username,
-        password: password
+        password: password,
+        joined: new Date
       });
       return user.save(function(err) {
         return res.redirect('/');

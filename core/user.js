@@ -26,7 +26,7 @@
     */
     function User(config) {
       if (config != null) {
-        this._id = config._id, this.username = config.username, this.name = config.name, this.providers = config.providers, this.profile = config.profile, this.password = config.password;
+        this._id = config._id, this.username = config.username, this.name = config.name, this.providers = config.providers, this.profile = config.profile, this.password = config.password, this.joined = config.joined;
       }
     }
 

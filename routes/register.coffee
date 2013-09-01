@@ -3,7 +3,7 @@ User = require '../core/user'
 
 exports.register = (req, res) ->
   res.render 'register',
-    title: 'Register for domore.io'
+    title: 'register'
 
 exports.doRegister = (req, res) ->
   if req.body.passwordAgain isnt req.body.password
@@ -19,5 +19,6 @@ exports.doRegister = (req, res) ->
     user = new User
       username: username
       password: password
+      joined: new Date
     user.save (err) ->
       res.redirect '/'

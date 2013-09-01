@@ -9,8 +9,10 @@ head
     if title
       = " | "+title
   //link(href='bootstrap/css/bootstrap.min.css', rel='stylesheet')
+  link(href='/css/glyphicons.css', rel='stylesheet')
   link(href='bootstrap/css/cosmo.min.css', rel='stylesheet')
   link(href='/css/sticky-footer-navbar.css', rel='stylesheet')
+
   //if lt IE 9
     script(src='js/html5shiv.js')
 body(style="padding-top:60px;")
@@ -23,7 +25,7 @@ body(style="padding-top:60px;")
             span.icon-bar
             span.icon-bar
           a.navbar-brand(href='/')
-            .glyphicon.glyphicon-ok
+            .glyphicon.glyphicon-log_book
             |  domore.io
         .navbar-right
         .collapse.navbar-collapse
@@ -41,4 +43,7 @@ body(style="padding-top:60px;")
       block scripts
   #footer
     .container
-      .text-muted.credit &copy; Ryan Muller 2013
+      .text-muted.credit
+        a(href='/') domore.io
+        |  &copy; 2013 Ryan Muller |&nbsp;
+        a(href='http://glyphicons.com/') icons

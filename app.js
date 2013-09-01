@@ -41,7 +41,7 @@ Module dependencies.
 
   app.use(flash());
 
-  app.use(express.favicon());
+  app.use(express.favicon(__dirname + '/public/favicon.png'));
 
   app.use(express.logger("dev"));
 

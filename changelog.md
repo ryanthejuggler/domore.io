@@ -1,10 +1,14 @@
 # Changelog
 
-## v 0.0.2
+### 0.0.3
+
+* Added snippet parsing
+
+### 0.0.2
 
 * Added 404 handling
 * Added snippets!
 
-## v 0.0.1
+### 0.0.1
 
 * User registration and login

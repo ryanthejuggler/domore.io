@@ -81,14 +81,14 @@
       } else {
         try {
           q = handleJson(entry);
-          tag = q[0], this.data = q[1];
+          tag = q[0], this.data = q[1], this.hashtags = q[2];
           this.handler = tag;
           handled = true;
         } catch (_error) {
           err = _error;
           console.log(err);
           this.data = this.originalEntry;
-          this.handler = "data";
+          this.handler = 'data';
         }
       }
       return callback(null, handled);

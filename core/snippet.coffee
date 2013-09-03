@@ -57,13 +57,13 @@ class Snippet
     else
       try
         q = handleJson entry
-        [tag, @data] = q
+        [tag, @data, @hashtags] = q
         @handler = tag
         handled = true
       catch err
         console.log err
         @data = @originalEntry
-        @handler="data"
+        @handler= 'data'
     callback null, handled
 
   handleAndSave: (callback) ->

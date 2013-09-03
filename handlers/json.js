@@ -15,7 +15,7 @@
     re = /#(\w+)\s*([,}]|$)/g;
     entry = entry.replace(re, function(whole, tag, tail) {
       hashtags.push(tag);
-      return tag + ":true" + tail;
+      return '"' + tag + '":true' + tail;
     });
     data = JSON.parse(entry);
     return [tag, data, hashtags];

@@ -13,6 +13,6 @@ module.exports = (entry) ->
   re = /#(\w+)\s*([,}]|$)/g
   entry = entry.replace re, (whole, tag, tail) ->
     hashtags.push tag
-    tag+":true"+tail
+    '"'+tag+'":true'+tail
   data = JSON.parse entry
   return [tag, data, hashtags]

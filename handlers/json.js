@@ -13,11 +13,11 @@
       return $1 + '"' + $2 + '":';
     }));
     re = /#(\w+)\s*([,}]|$)/g;
-    entry = entry.replace;
-    data = JSON.parse(entry, function(whole, tag, tail) {
+    entry = entry.replace(re, function(whole, tag, tail) {
       hashtags.push(tag);
       return tag + ":true" + tail;
     });
+    data = JSON.parse(entry);
     return [tag, data, hashtags];
   };
 

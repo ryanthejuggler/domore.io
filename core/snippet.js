@@ -18,7 +18,7 @@
       @field originalEntry {string}
       @field ts {Date} timestamp
       @field data {Object}
-      @field location {lat:number, lon:number, uncty:number, alt:number, altUncty:number}
+      @field location {pos:{lat:number, lon:number, sigma:number}, alt:{value:number, sigma:number}}
       @field hashtags {Array(string)}
       @field handler {string}
     */

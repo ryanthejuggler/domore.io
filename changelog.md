@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.0.4
+
+* Added hashtag support
+* Prettier snippet display
+
 ### 0.0.3
 
 * Added snippet parsing

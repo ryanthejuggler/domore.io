@@ -1,6 +1,6 @@
 {
   "name": "domore.io",
-  "version": "0.0.2",
+  "version": "0.0.3-alpha-1",
   "private": true,
   "scripts": {
     "start": "node app.js"

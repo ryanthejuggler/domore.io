@@ -17,7 +17,10 @@ case handler
 div(class=panelClass)
   .panel-heading
     h3.panel-title!= title + " &mdash; "
-      span.text-right.timeago(title=ts.toISOString())
+      span.timeago(title=ts.toISOString())
+      small(style="float:right;")
+        - for (var i in hashtags)
+          = ' #'+hashtags[i]
   .panel-body
     if isObject
       table.table-striped.table-bordered.table-condensed

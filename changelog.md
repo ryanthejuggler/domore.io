@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.0.5
+
+* Display hashtags
+
 ### 0.0.4
 
 * Added hashtag support

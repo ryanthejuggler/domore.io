@@ -27,6 +27,7 @@ module.exports = (app) ->
         panel: ajaxUI.makePanel
           content: snippet.data ? snippet.originalEntry
           handler: snippet.handler
+          hashtags: snippet.hashtags
           ts: snippet.ts
 
 
@@ -41,4 +42,5 @@ module.exports = (app) ->
         panels: for snippet in data then ajaxUI.makePanel
           content: snippet.data ? snippet.originalEntry
           handler: snippet.handler
+          hashtags: snippet.hashtags
           ts: snippet.ts

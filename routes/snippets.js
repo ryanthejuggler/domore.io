@@ -45,6 +45,7 @@
           panel: ajaxUI.makePanel({
             content: (_ref1 = snippet.data) != null ? _ref1 : snippet.originalEntry,
             handler: snippet.handler,
+            hashtags: snippet.hashtags,
             ts: snippet.ts
           })
         });
@@ -75,6 +76,7 @@
               _results.push(ajaxUI.makePanel({
                 content: (_ref = snippet.data) != null ? _ref : snippet.originalEntry,
                 handler: snippet.handler,
+                hashtags: snippet.hashtags,
                 ts: snippet.ts
               }));
             }

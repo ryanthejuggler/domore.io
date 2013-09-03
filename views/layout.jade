@@ -46,4 +46,4 @@ body(style="padding-top:60px;")
       .text-muted.credit
         a(href='/') domore.io
         |  &copy; 2013 ryan muller | v
-        a(href='/changelog')= version
+        a(href='/changelog')!= version.replace(/-?[Aa]lpha(.*)$/,("&alpha;$1").sub())

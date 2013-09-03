@@ -1,5 +1,6 @@
 db = require './db'
-{ObjectID} = db
+handleJson = require '../handlers/json'
+
 ###*
   @class Snippet
 ###
@@ -53,6 +54,16 @@ class Snippet
       @data = entry.substr(2).trim()
       @handler = 'note'
       handled = true
+    else
+      try
+        q = handleJson entry
+        [tag, @data] = q
+        @handler = tag
+        handled = true
+      catch err
+        console.log err
+        @data = @originalEntry
+        @handler="data"
     callback null, handled
 
   handleAndSave: (callback) ->

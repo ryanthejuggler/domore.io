@@ -2,12 +2,31 @@ case handler
   when 'note'
     - panelClass = 'panel panel-success'
     - title = 'note'
+    - isObject = false
+  when 'data'
+    - panelClass = 'panel panel-danger'
+    - isObject = false
+  when null
+    - panelClass = 'panel panel-danger'
+    - title = 'data'
+    - isObject = false
   default
     - panelClass = 'panel panel-default'
-    - title = 'data'
+    - title = (handler==null?'data':handler)
+    - isObject = true
 div(class=panelClass)
   .panel-heading
     h3.panel-title!= title + " &mdash; "
       span.text-right.timeago(title=ts.toISOString())
   .panel-body
-    = content
+    if isObject
+      table.table-striped.table-bordered.table-condensed
+        tbody
+        - for (var i in content)
+          if content.hasOwnProperty(i)
+            tr
+              th= i.toString()
+              td= typeof(content[i]) === 'object'? JSON.stringify(content[i]) : content[i].toString()
+
+    else
+      = content

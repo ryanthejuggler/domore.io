@@ -45,9 +45,5 @@ body(style="padding-top:60px;")
     .container
       .text-muted.credit
         a(href='/') domore.io
-        |  &copy; 2013 ryan muller | version&nbsp;
-        a(href='/changelog')= version
-        |  | powered by&nbsp;
-        a(href='http://nodejs.org') node.js
-        |  | icons by&nbsp;
-        a(href='http://glyphicons.com/') jan kovařík
+        |  &copy; 2013 ryan muller | v
+        a(href='/changelog')!= version.replace(/-?[Aa]lpha(.*)$/,("&alpha;$1").sub())

@@ -9,7 +9,7 @@ module.exports = (entry) ->
   entry = entry.replace /
   entry = entry.replace /([{,]\s*)(\w+)\:/g, (whole, $1, $2) ->
     return $1 + '"' + $2 + '":'
-  re = /#(\w+)\s*([,}])/g
+  re = /#(\w+)\s*([,}]|$)/g
   entry = entry.replace
   data = JSON.parse entry, (whole, tag, tail) ->
     hashtags.push tag

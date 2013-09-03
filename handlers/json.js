@@ -12,7 +12,7 @@
     entry = entry.replace / (entry = entry.replace(/([{,]\s*)(\w+)\:/g, function(whole, $1, $2) {
       return $1 + '"' + $2 + '":';
     }));
-    re = /#(\w+)\s*([,}])/g;
+    re = /#(\w+)\s*([,}]|$)/g;
     entry = entry.replace;
     data = JSON.parse(entry, function(whole, tag, tail) {
       hashtags.push(tag);

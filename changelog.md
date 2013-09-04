@@ -3,6 +3,7 @@
 ### 0.0.5
 
 * Display hashtags
+* More intuitive data entry
 
 ### 0.0.4
 

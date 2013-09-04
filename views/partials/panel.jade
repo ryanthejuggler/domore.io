@@ -4,24 +4,31 @@ case handler
     - title = 'note'
     - isObject = false
   when 'data'
-    - panelClass = 'panel panel-danger'
+    - panelClass = 'panel panel-warning'
     - isObject = false
   when null
-    - panelClass = 'panel panel-danger'
+    - panelClass = 'panel panel-warning'
     - title = 'data'
     - isObject = false
   default
     - panelClass = 'panel panel-default'
     - title = (handler==null?'data':handler)
     - isObject = true
+if !title
+  title = 'error'
 div(class=panelClass)
   .panel-heading
-    h3.panel-title!= title + " &mdash; "
+    h3.panel-title(style="position:relative;")
+      a(data-toggle="dropdown", href='#')!= title
+      ul.dropdown-menu(role="menu")
+        //li: a(href='#'): strike(style="color:#dcdcdc") edit
+        li: a(href='#') delete
+      |  &mdash;&nbsp;
       span.timeago(title=ts.toISOString())
       small(style="float:right;")
         - for (var i in hashtags)
           = ' #'+hashtags[i]
-  .panel-body
+  .panel-body(style="position:relative;")
     if isObject
       table.table-striped.table-bordered.table-condensed
         tbody

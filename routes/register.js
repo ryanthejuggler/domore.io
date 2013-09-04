@@ -13,10 +13,14 @@
   };
 
   exports.doRegister = function(req, res) {
-    var md5, password, username;
+    var md5, password, username, _ref;
 
     if (req.body.passwordAgain !== req.body.password) {
-      req.flash('error', "passwords don't match");
+      req.flash('danger', "passwords don't match");
+      return res.redirect('/register');
+    }
+    if ((_ref = req.body.invite) !== 'RUNKEEPER-2106') {
+      req.flash('danger', 'invalid invite code "' + req.body.invite + '"');
       return res.redirect('/register');
     }
     username = req.body.username;
@@ -24,7 +28,7 @@
     password = md5.update(req.body.password).digest('base64');
     return User.getByName(username, function(err, user) {
       if (user) {
-        req.flash('error', "user exists");
+        req.flash('danger', "user by that username already exists");
         return res.redirect('/register');
       }
       user = new User({
@@ -33,6 +37,7 @@
         joined: new Date
       });
       return user.save(function(err) {
+        req.flash('success', 'welcome, ' + user.username + '! <a class="btn btn-info btn-sm" href="/login">log in &raquo;</a>');
         return res.redirect('/');
       });
     });

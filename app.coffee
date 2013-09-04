@@ -23,7 +23,6 @@ app.set "port", process.env.PORT or 3000
 app.set "views", __dirname + "/views"
 app.set "view engine", "jade"
 
-app.use flash()
 
 app.use express.favicon __dirname + '/public/favicon.png'
 app.use express.logger("dev")
@@ -34,6 +33,16 @@ app.use express.session
   secret: "SOMESECRET"
 app.use passport.initialize()
 app.use passport.session()
+app.use (req, res, next) ->
+  res.locals.user = req.session.user
+  res.locals.messages = req.session.messages || []
+  next()
+app.use (req, res, next) ->
+  session = req.session
+  messages = session.messages or (session.messages = [])
+  req.flash = (type,message) ->
+    messages.push type: type, content:message
+  next()
 app.use require("stylus").middleware(__dirname + "/public")
 app.use express.static(path.join(__dirname, "public"))
 app.use app.router

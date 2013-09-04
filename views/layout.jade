@@ -38,6 +38,8 @@ body(style="padding-top:60px;")
               li.active: a(href='/') home
               li: a.navbar-link(href='/login') log in
     .container(style='position:relative;')
+      while message = messages.pop()
+        div(class="alert alert-"+message.type)!= message.content
       block content
       script(src='/js/jquery-1.10.2.min.js')
       script(src='/bootstrap/js/bootstrap.min.js')

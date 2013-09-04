@@ -43,8 +43,6 @@ Module dependencies.
 
   app.set("view engine", "jade");
 
-  app.use(flash());
-
   app.use(express.favicon(__dirname + '/public/favicon.png'));
 
   app.use(express.logger("dev"));
@@ -62,6 +60,26 @@ Module dependencies.
   app.use(passport.initialize());
 
   app.use(passport.session());
+
+  app.use(function(req, res, next) {
+    res.locals.user = req.session.user;
+    res.locals.messages = req.session.messages || [];
+    return next();
+  });
+
+  app.use(function(req, res, next) {
+    var messages, session;
+
+    session = req.session;
+    messages = session.messages || (session.messages = []);
+    req.flash = function(type, message) {
+      return messages.push({
+        type: type,
+        content: message
+      });
+    };
+    return next();
+  });
 
   app.use(require("stylus").middleware(__dirname + "/public"));
 

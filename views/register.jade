@@ -2,6 +2,7 @@ extends layout
 
 block content
   h1 register
+  h3 sorry, invite-only for the time being
   form.form-horizontal(method='post')
     fieldset
       .control-group
@@ -19,8 +20,8 @@ block content
       .control-group
         label.control-label(for='invite') invite code
         .controls
-          input#invite.input-xlarge(type='password', name='invite')
-      .form-actions
+          input#invite.input-xlarge(type='text', name='invite')
+      .form-actions(style="margin-top:10px;")
         button.btn.btn-primary(type='submit') register
 
 block scripts

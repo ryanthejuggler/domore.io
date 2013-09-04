@@ -35,6 +35,7 @@
           res.json({
             error: err
           });
+          return;
         }
         return res.json({
           ok: true,
@@ -43,6 +44,7 @@
           data: (_ref = snippet.data) != null ? _ref : snippet.originalEntry,
           handler: snippet.handler,
           panel: ajaxUI.makePanel({
+            snippet: snippet,
             content: (_ref1 = snippet.data) != null ? _ref1 : snippet.originalEntry,
             handler: snippet.handler,
             hashtags: snippet.hashtags,
@@ -51,18 +53,19 @@
         });
       });
     });
-    return app.get('/ajax/snippets/get', function(req, res) {
+    app.get('/ajax/snippets/get', function(req, res) {
       if (!req.user) {
         res.json({
           error: 'not logged in'
         });
+        return;
       }
       return Snippet.getAllForUser(req.user, function(err, data) {
         var snippet;
 
         if (err) {
           res.json({
-            err: err
+            error: err
           });
         }
         return res.json({
@@ -74,6 +77,7 @@
             for (_i = 0, _len = data.length; _i < _len; _i++) {
               snippet = data[_i];
               _results.push(ajaxUI.makePanel({
+                snippet: snippet,
                 content: (_ref = snippet.data) != null ? _ref : snippet.originalEntry,
                 handler: snippet.handler,
                 hashtags: snippet.hashtags,
@@ -82,6 +86,27 @@
             }
             return _results;
           })()
+        });
+      });
+    });
+    return app.post('/ajax/snippets/delete', function(req, res) {
+      if (!req.user) {
+        res.json({
+          error: 'not logged in'
+        });
+        return;
+      }
+      return Snippet.getByUserAndId(req.user, req.body.id, function(err, snip) {
+        return snip.del(function(err) {
+          if (err) {
+            res.json({
+              error: err
+            });
+            return;
+          }
+          return res.json({
+            ok: true
+          });
         });
       });
     });

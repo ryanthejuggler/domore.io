@@ -16,13 +16,13 @@ case handler
     - isObject = true
 if !title
   title = 'error'
-div(class=panelClass)
+div(class=panelClass, id="snippet-"+snippet._id.toString())
   .panel-heading
     h3.panel-title(style="position:relative;")
       a(data-toggle="dropdown", href='#')!= title
       ul.dropdown-menu(role="menu")
         //li: a(href='#'): strike(style="color:#dcdcdc") edit
-        li: a(href='#') delete
+        li: a(href='#', id="delete-snippet-"+snippet._id.toString()) delete
       |  &mdash;&nbsp;
       span.timeago(title=ts.toISOString())
       small(style="float:right;")
@@ -40,3 +40,11 @@ div(class=panelClass)
 
     else
       = content
+  script.
+    (function(){
+      var id = "#{snippet._id.toString()}";
+      $('#delete-snippet-'+id).click(function(){
+        deleteSnippet(id);
+        return false;
+      });
+    })();

@@ -4,6 +4,7 @@
 
 * Display hashtags
 * More intuitive data entry
+* Ability to delete snippets
 
 ### 0.0.4
 

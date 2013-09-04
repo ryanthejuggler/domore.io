@@ -1,4 +1,5 @@
 db = require './db'
+{ObjectID} = db
 handleJson = require '../handlers/json'
 
 ###*
@@ -33,8 +34,6 @@ class Snippet
     if @_id then snipData._id = @_id
     snipData
 
-
-
   ###*
     @method save
   ###
@@ -44,8 +43,17 @@ class Snippet
       cxn.save snipData,
         safe: true
       , (err, result) =>
-        @id = result._id
+        @_id = result._id
         callback err
+
+  del: (callback) ->
+    db.collection 'snippets', (err, cxn) =>
+      cxn.remove
+        _id:@_id
+      ,
+          safe: true
+      , (err, result) =>
+          callback err
 
   handle: (callback) ->
     entry = @originalEntry
@@ -77,6 +85,16 @@ Snippet.getAllForUser = (user, callback) ->
     snippets = for doc in docs
       new Snippet doc
     callback null, snippets
+
+Snippet.getByUserAndId = (user, id, callback) ->
+  id = new ObjectID id
+  db.collection 'snippets', (err, cxn) ->
+    cxn.find(owner:user._id, _id:id).toArray (err, docs) ->
+      if err then callback err
+      if docs.length is 0 then callback 'no such animal'
+      snippet = docs[0]
+      snippet = new Snippet snippet
+      callback null, snippet
 
 Snippet.getAllPicklesForUser = (user, callback) ->
   db.collection 'snippets', (err, cxn) ->

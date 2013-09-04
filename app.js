@@ -5,7 +5,7 @@ Module dependencies.
 
 
 (function() {
-  var LocalStrategy, User, app, db, doLogin, doRegister, express, flash, http, login, md, packageMeta, passport, path, register, routes, user, _ref, _ref1;
+  var LocalStrategy, User, app, db, doLogin, doRegister, express, http, login, md, packageMeta, passport, path, register, routes, user, _ref, _ref1;
 
   express = require("express");
 
@@ -16,8 +16,6 @@ Module dependencies.
   _ref = require('./routes/register'), register = _ref.register, doRegister = _ref.doRegister;
 
   _ref1 = require('./routes/login'), login = _ref1.login, doLogin = _ref1.doLogin;
-
-  flash = require('connect-flash');
 
   http = require("http");
 

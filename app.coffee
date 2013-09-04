@@ -7,7 +7,6 @@ routes = require("./routes")
 user = require("./routes/user")
 {register, doRegister} = require './routes/register'
 {login, doLogin} = require './routes/login'
-flash = require 'connect-flash'
 http = require("http")
 path = require("path")
 app = express()

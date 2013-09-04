@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  h1 plot your data
+  form.form-horizontal(method='post')
+    fieldset
+      .control-group
+        label.control-label(for='type') data type
+        .controls
+          input#type(type='text', name='type')
+      .control-group
+        label.control-label(for='domain') domain
+        .controls
+          input#domain(type='text', name='domain')
+      .control-group
+        label.control-label(for='range') range
+        .controls
+          input#range(type='text', name='range')
+      .form-actions(style="margin-top:10px;")
+        a.btn.btn-primary#plot-that plot
+  .container#plot-goes-here
+
+block scripts
+  link(rel="stylesheet",href="/css/plot.css");
+  script(src="/js/d3.v3.min.js")
+  script(src="/js/data-plot.js")

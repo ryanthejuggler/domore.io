@@ -104,4 +104,12 @@ Snippet.getAllPicklesForUser = (user, callback) ->
       callback null, snippets
 
 
+Snippet.getAllPicklesForUserAndType = (user, type, callback) ->
+  db.collection 'snippets', (err, cxn) ->
+    cxn.find({owner:user._id,handler:type}).sort(ts:1).toArray (err, docs) ->
+      if err then callback err
+      snippets = docs
+      callback null, snippets
+
+
 module.exports = Snippet

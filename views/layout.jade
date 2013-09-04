@@ -32,6 +32,7 @@ body(style="padding-top:60px;")
           ul.nav.navbar-nav.navbar-right
             if user
               li.active: a(href='#') dash
+              li: a.navbar-link(href='/plot') plot
               li: a.navbar-link(href='#')= user.username
               li: a.navbar-link(href='/logout', title='log out') log out
             else

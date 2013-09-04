@@ -62,7 +62,6 @@ Module dependencies.
   app.use(passport.session());
 
   app.use(function(req, res, next) {
-    res.locals.user = req.session.user;
     res.locals.messages = req.session.messages || [];
     return next();
   });
@@ -140,9 +139,16 @@ Module dependencies.
     return res.render('index');
   });
 
+  app.use(function(req, res, next) {
+    res.locals.user = req.user;
+    return next();
+  });
+
   require('./routes/frontmatter')(app);
 
   require('./routes/snippets')(app);
+
+  require('./routes/plot')(app);
 
   app.get('*', function(req, res) {
     return res.render('404', {

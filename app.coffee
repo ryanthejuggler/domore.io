@@ -34,7 +34,6 @@ app.use express.session
 app.use passport.initialize()
 app.use passport.session()
 app.use (req, res, next) ->
-  res.locals.user = req.session.user
   res.locals.messages = req.session.messages || []
   next()
 app.use (req, res, next) ->
@@ -82,9 +81,12 @@ app.post "/login", passport.authenticate('local', { successRedirect:'/',failureR
 app.get "/logout", (req, res) ->
   req.logout()
   res.render 'index'
-
+app.use (req, res, next) ->
+  res.locals.user = req.user
+  next()
 require('./routes/frontmatter') app
 require('./routes/snippets') app
+require('./routes/plot') app
 
 app.get '*', (req, res) ->
   res.render '404',

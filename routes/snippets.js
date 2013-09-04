@@ -89,7 +89,7 @@
         });
       });
     });
-    return app.post('/ajax/snippets/delete', function(req, res) {
+    app.post('/ajax/snippets/delete', function(req, res) {
       if (!req.user) {
         res.json({
           error: 'not logged in'
@@ -107,6 +107,26 @@
           return res.json({
             ok: true
           });
+        });
+      });
+    });
+    return app.post('/ajax/data', function(req, res) {
+      if (!req.user) {
+        res.json({
+          error: 'not logged in'
+        });
+        return;
+      }
+      return Snippet.getAllPicklesForUserAndType(req.user, req.body.type, function(err, data) {
+        if (err) {
+          res.json({
+            error: err
+          });
+          return;
+        }
+        return res.json({
+          ok: true,
+          data: data
         });
       });
     });

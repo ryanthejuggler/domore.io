@@ -14,9 +14,10 @@ app = express()
 passport = require 'passport'
 User = require './core/user'
 LocalStrategy = require('passport-local').Strategy
-db = require './core/db'
+db = require './core/Db'
 packageMeta = require './package'
 md = require('node-markdown').Markdown
+
 
 # all environments
 app.set "port", process.env.PORT or 3000
@@ -82,7 +83,8 @@ app.get "/logout", (req, res) ->
   req.logout()
   res.render 'index'
 app.use (req, res, next) ->
-  res.locals.user = req.user
+  if req.user
+    res.locals.user = req.user
   next()
 require('./routes/frontmatter') app
 require('./routes/snippets') app

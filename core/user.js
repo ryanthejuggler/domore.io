@@ -2,7 +2,7 @@
 (function() {
   var ObjectID, User, crypto, db;
 
-  db = require('./db');
+  db = require('./Db');
 
   ObjectID = db.ObjectID;
 

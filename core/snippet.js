@@ -2,7 +2,7 @@
 (function() {
   var ObjectID, Snippet, db, handleJson;
 
-  db = require('./db');
+  db = require('./Db');
 
   ObjectID = db.ObjectID;
 

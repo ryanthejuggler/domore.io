@@ -1,5 +1,6 @@
-db = require './db'
+db = require './Db'
 {ObjectID} = db
+DatePattern = require 'DatePattern'
 
 ###
   @class Task
@@ -16,6 +17,10 @@ class Task
     @field blockedBy {Array(ObjectID)} List of ObjectIDs for tasks that are blocking this one
     @field blockerFor List of ObjectIDs for tasks that this one is blocking
     @field complete {boolean}
+    @field recurs {undefined or DatePattern} if this task recurs, the DatePattern that
+        describes the repetition of this task
+    @field recurring {undefined or Task} if this is an instance of a recurring task,
+        the first task in the set
   ###
 
   ###*
@@ -31,6 +36,10 @@ class Task
     @blockedBy ?= []
     @blockerFor ?= []
     @complete ?= no
+    if config.recurs?
+      {@recurs} = config
+      @recurs = new DatePattern @recurs
+    if config.recurring? then {@recurring} = config
 
   ###*
     @method save
@@ -47,8 +56,10 @@ class Task
       blockerFor: @blockerFor
       complete: @complete
     if @_id then taskData._id = @_id
+    if @recurs then taskData.recurs = @recurs
     db.collection 'tasks', (err, cxn) ->
       cxn.save taskData,
         safe: true
       , (err) ->
         callback err
+

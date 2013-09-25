@@ -1,4 +1,4 @@
-db = require './db'
+db = require './Db'
 {ObjectID} = db
 crypto = require 'crypto'
 

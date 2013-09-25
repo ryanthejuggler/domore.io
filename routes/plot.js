@@ -7,9 +7,12 @@
   module.exports = function(app) {
     return app.get('/plot', function(req, res) {
       if (!req.user) {
+        req.flash('warning', 'must be logged in to view plots');
         return res.redirect('/404');
       }
-      return res.render('plot');
+      return res.render('plot', {
+        user: req.user
+      });
     });
   };
 

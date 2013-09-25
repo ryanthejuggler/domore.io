@@ -1,4 +1,4 @@
-db = require './db'
+db = require './Db'
 {ObjectID} = db
 handleJson = require '../handlers/json'
 

@@ -2,7 +2,7 @@
 (function() {
   var ObjectID, Snippet, db, handleJson;
 
-  db = require('./db');
+  db = require('./Db');
 
   ObjectID = db.ObjectID;
 
@@ -169,6 +169,25 @@
     return db.collection('snippets', function(err, cxn) {
       return cxn.find({
         owner: user._id
+      }).sort({
+        ts: 1
+      }).toArray(function(err, docs) {
+        var snippets;
+
+        if (err) {
+          callback(err);
+        }
+        snippets = docs;
+        return callback(null, snippets);
+      });
+    });
+  };
+
+  Snippet.getAllPicklesForUserAndType = function(user, type, callback) {
+    return db.collection('snippets', function(err, cxn) {
+      return cxn.find({
+        owner: user._id,
+        handler: type
       }).sort({
         ts: 1
       }).toArray(function(err, docs) {

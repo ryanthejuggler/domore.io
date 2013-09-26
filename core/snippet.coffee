@@ -1,4 +1,4 @@
-db = require './db'
+db = require './Db'
 {ObjectID} = db
 handleJson = require '../handlers/json'
 
@@ -99,6 +99,14 @@ Snippet.getByUserAndId = (user, id, callback) ->
 Snippet.getAllPicklesForUser = (user, callback) ->
   db.collection 'snippets', (err, cxn) ->
     cxn.find({owner:user._id}).sort(ts:1).toArray (err, docs) ->
+      if err then callback err
+      snippets = docs
+      callback null, snippets
+
+
+Snippet.getAllPicklesForUserAndType = (user, type, callback) ->
+  db.collection 'snippets', (err, cxn) ->
+    cxn.find({owner:user._id,handler:type}).sort(ts:1).toArray (err, docs) ->
       if err then callback err
       snippets = docs
       callback null, snippets

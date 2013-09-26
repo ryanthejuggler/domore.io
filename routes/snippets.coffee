@@ -65,3 +65,18 @@ module.exports = (app) ->
           return
         res.json
           ok: true
+
+  app.post '/ajax/data', (req, res) ->
+    unless req.user
+      res.json
+        error: 'not logged in'
+      return
+    Snippet.getAllPicklesForUserAndType req.user, req.body.type, (err, data) ->
+      if err
+        res.json
+          error: err
+        return
+      res.json
+        ok: true
+        data: data
+

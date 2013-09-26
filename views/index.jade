@@ -1,22 +1,6 @@
 extends layout
 
 block content
-  .jumbotron
-    .container
-      h1 your life, quantified
-      h2 plot
-        span#first-word  mood
-        |  vs.
-        span#second-word  commute time
-      p there are many patterns in your life waiting to be discovered
-      a.btn.btn-primary find yours today &raquo;
+  h2 coming soon...
 
 block scripts
-  script.
-    var firstSet = ['mood','weather','headaches','money spent','productivity','sleep quality'];
-    var secondSet = ['commute time','social events','miles run per week','calories taken in',
-      'emails sent','taking the stairs','books read'];
-    setInterval(function(){
-      $('#first-word').text(' '+firstSet[Math.floor(Math.random()*firstSet.length)]);
-      $('#second-word').text(' '+secondSet[Math.floor(Math.random()*secondSet.length)]);
-    }, 1500);

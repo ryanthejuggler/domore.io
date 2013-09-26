@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  h1 todo for
+    = " "+user.username
+  div(style="padding-bottom:20px")
+    .input-group
+      input.form-control#entry(style="width:100%", autocomplete="false")
+      .input-group-btn: a.btn.btn-success#crunch
+        .glyphicon.glyphicon-play
+  .row
+    .col-md-6#results
+
+
+
+block scripts
+  script(type="text/javascript", src="/js/jquery.timeago.js")
+  script(type="text/javascript", src="/js/typeahead.min.js")
+  script(type="text/javascript", src="/js/todo.js")

@@ -32,6 +32,7 @@ body(style="padding-top:60px;")
           ul.nav.navbar-nav.navbar-right
             if user
               li.active: a(href='#') dash
+              li: a.navbar-link(href='/todo') todo
               li: a.navbar-link(href='/plot') plot
               li: a.navbar-link(href='#')= user.username
               li: a.navbar-link(href='/logout', title='log out') log out
@@ -39,8 +40,9 @@ body(style="padding-top:60px;")
               li.active: a(href='/') home
               li: a.navbar-link(href='/login') log in
     .container(style='position:relative;')
-      while message = messages.pop()
-        div(class="alert alert-"+message.type)!= message.content
+      if messages
+        while message = messages.pop()
+          div(class="alert alert-"+message.type)!= message.content
       block content
       script(src='/js/jquery-1.10.2.min.js')
       script(src='/bootstrap/js/bootstrap.min.js')

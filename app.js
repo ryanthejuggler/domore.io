@@ -5,7 +5,7 @@ Module dependencies.
 
 
 (function() {
-  var LocalStrategy, User, app, db, doLogin, doRegister, express, flash, http, login, md, packageMeta, passport, path, register, routes, user, _ref, _ref1;
+  var LocalStrategy, RedisStore, User, app, db, doLogin, doRegister, express, flash, http, login, md, packageMeta, passport, path, register, routes, user, _ref, _ref1;
 
   express = require("express");
 
@@ -37,6 +37,8 @@ Module dependencies.
 
   md = require('node-markdown').Markdown;
 
+  RedisStore = require('connect-redis')(express);
+
   app.set("port", process.env.PORT || 3000);
 
   app.set("views", __dirname + "/views");
@@ -54,6 +56,12 @@ Module dependencies.
   app.use(express.cookieParser("SOMESECRET"));
 
   app.use(express.session({
+    store: new RedisStore({
+      host: 'localhost',
+      port: 6379,
+      db: 2,
+      pass: ''
+    }),
     secret: "SOMESECRET"
   }));
 
@@ -62,13 +70,15 @@ Module dependencies.
   app.use(passport.session());
 
   app.use(function(req, res, next) {
-    res.locals.messages = req.session.messages || [];
+    if (req.session) {
+      res.locals.messages = req.session.messages || [];
+    }
     return next();
   });
 
   app.use(function(req, res, next) {
     var messages, session;
-    session = req.session;
+    session = req.session || {};
     messages = session.messages || (session.messages = []);
     req.flash = function(type, message) {
       return messages.push({
@@ -82,6 +92,13 @@ Module dependencies.
   app.use(require("stylus").middleware(__dirname + "/public"));
 
   app.use(express["static"](path.join(__dirname, "public")));
+
+  app.use(function(req, res, next) {
+    if (req.user) {
+      res.locals.user = req.user;
+    }
+    return next();
+  });
 
   app.use(app.router);
 
@@ -138,18 +155,13 @@ Module dependencies.
     return res.render('index');
   });
 
-  app.use(function(req, res, next) {
-    if (req.user) {
-      res.locals.user = req.user;
-    }
-    return next();
-  });
-
   require('./routes/frontmatter')(app);
 
   require('./routes/snippets')(app);
 
   require('./routes/plot')(app);
+
+  require('./routes/todo')(app);
 
   app.get('*', function(req, res) {
     return res.render('404', {

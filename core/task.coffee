@@ -1,6 +1,6 @@
 db = require './Db'
 {ObjectID} = db
-DatePattern = require 'DatePattern'
+DatePattern = require './DatePattern'
 
 ###
   @class Task
@@ -41,10 +41,8 @@ class Task
       @recurs = new DatePattern @recurs
     if config.recurring? then {@recurring} = config
 
-  ###*
-    @method save
-  ###
-  save: (callback) ->
+
+  pickle: ->
     taskData =
       owner: @owner
       title: @title ? ''
@@ -57,9 +55,54 @@ class Task
       complete: @complete
     if @_id then taskData._id = @_id
     if @recurs then taskData.recurs = @recurs
+    taskData
+
+  ###*
+    @method save
+  ###
+  save: (callback) ->
+    taskData = @pickle()
     db.collection 'tasks', (err, cxn) ->
       cxn.save taskData,
         safe: true
       , (err) ->
         callback err
 
+  del: (callback) ->
+    db.collection 'tasks', (err, cxn) =>
+      cxn.remove
+        _id:@_id
+      ,
+        safe: true
+      , (err, result) =>
+        callback err
+
+
+Task.getAllPicklesForUser = (user, callback) ->
+  db.collection 'tasks', (err, cxn) ->
+    cxn.find({owner:user._id}).sort(start:1).toArray (err, docs) ->
+      if err then callback err
+      snippets = docs
+      callback null, snippets
+
+
+Task.getAllForUser = (user, callback) ->
+  Task.getAllPicklesForUser user, (err, docs) ->
+    if err then callback err
+    tasks = for doc in docs
+      new Task doc
+    callback null, tasks
+
+
+Task.getByUserAndId = (user, id, callback) ->
+  id = new ObjectID id
+  db.collection 'tasks', (err, cxn) ->
+    cxn.find(owner:user._id, _id:id).toArray (err, docs) ->
+      if err then callback err
+      if docs.length is 0 then callback 'no such animal'
+      snippet = docs[0]
+      snippet = new Task snippet
+      callback null, snippet
+
+
+module.exports = Task

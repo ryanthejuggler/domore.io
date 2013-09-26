@@ -17,6 +17,7 @@ LocalStrategy = require('passport-local').Strategy
 db = require './core/Db'
 packageMeta = require './package'
 md = require('node-markdown').Markdown
+RedisStore = require('connect-redis')(express)
 
 
 # all environments
@@ -31,20 +32,32 @@ app.use express.bodyParser()
 app.use express.methodOverride()
 app.use express.cookieParser("SOMESECRET")
 app.use express.session
+  store: new RedisStore
+    host: 'localhost',
+    port: 6379,
+    db: 2,
+    pass: ''
   secret: "SOMESECRET"
 app.use passport.initialize()
 app.use passport.session()
 app.use (req, res, next) ->
-  res.locals.messages = req.session.messages || []
+  if req.session
+    res.locals.messages = req.session.messages || []
   next()
 app.use (req, res, next) ->
-  session = req.session
+  session = req.session or {}
   messages = session.messages or (session.messages = [])
   req.flash = (type,message) ->
     messages.push type: type, content:message
   next()
 app.use require("stylus").middleware(__dirname + "/public")
 app.use express.static(path.join(__dirname, "public"))
+
+app.use (req, res, next) ->
+  if req.user
+    res.locals.user = req.user
+  next()
+
 app.use app.router
 
 passport.use new LocalStrategy  (username, password, done) ->
@@ -82,13 +95,10 @@ app.post "/login", passport.authenticate('local', { successRedirect:'/',failureR
 app.get "/logout", (req, res) ->
   req.logout()
   res.render 'index'
-app.use (req, res, next) ->
-  if req.user
-    res.locals.user = req.user
-  next()
 require('./routes/frontmatter') app
 require('./routes/snippets') app
 require('./routes/plot') app
+require('./routes/todo') app
 
 app.get '*', (req, res) ->
   res.render '404',

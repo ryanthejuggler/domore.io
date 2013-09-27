@@ -1,16 +1,17 @@
 
-div.panel.panel-danger(id="delete-todo-"+id)
+div.panel.panel-default(id="todo-"+id)
   .panel-heading
     h3.panel-title(style="position:relative;")
       a(data-toggle="dropdown", href='#')!= title
       ul.dropdown-menu(role="menu")
         li: a(href='#'): strike(style="color:#dcdcdc") edit
-        li: a(href='#', id="todo-"+id) delete
-      |  &mdash;&nbsp;
+        li: a(href='#', id="delete-todo-"+id) delete
+      if task.start!=='none'
+        |  &mdash;&nbsp;
       //span.timeago(title=ts.toISOString())
-      small(style="float:right;")
-        - for (var i in hashtags)
-          = ' #'+hashtags[i]
+      //.label.label-info(style="float:right;")
+      - for (var i in hashtags)
+        .label.label-warning.pull-right= '#'+hashtags[i]
   .panel-body(style="position:relative;")
     = content
   script.

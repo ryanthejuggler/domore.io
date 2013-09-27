@@ -2,6 +2,8 @@ db = require './Db'
 {ObjectID} = db
 DatePattern = require './DatePattern'
 
+hashtagPattern = /#\w+/g
+
 ###
   @class Task
 ###
@@ -11,12 +13,13 @@ class Task
     @field owner {ObjectID}
     @field title {string}
     @field description {string}
-    @field start {Date or "none"}
-    @field end {Date or "none"}
+    @field hashtags {Array(String)}
+    @field start {Date or "none"} datetime when this event starts or task can start
+    @field end {Date or "none"} datetime when this event ends or task is due
     @field type {string} Either 'event' or 'task'
     @field blockedBy {Array(ObjectID)} List of ObjectIDs for tasks that are blocking this one
     @field blockerFor List of ObjectIDs for tasks that this one is blocking
-    @field complete {boolean}
+    @field status {String} one of (blocked|ready|inprogress|complete)
     @field recurs {undefined or DatePattern} if this task recurs, the DatePattern that
         describes the repetition of this task
     @field recurring {undefined or Task} if this is an instance of a recurring task,
@@ -27,7 +30,8 @@ class Task
     @constructor
   ###
   constructor: (config) ->
-    {@_id, @owner, @title, @description, @start, @end, @type, @blockedBy, @blockerFor, @complete} = config
+    {@_id, @owner, @title, @description, @hashtags} = config
+    {@start, @end, @type, @blockedBy, @blockerFor, @status} = config
     @title ?= ''
     @description ?= ''
     @start ?= 'none'
@@ -35,7 +39,8 @@ class Task
     @type ?= 'event'
     @blockedBy ?= []
     @blockerFor ?= []
-    @complete ?= no
+    @status ?= 'ready'
+    @hashtags ?= []
     if config.recurs?
       {@recurs} = config
       @recurs = new DatePattern @recurs
@@ -52,10 +57,23 @@ class Task
       type: @type ? 'event'
       blockedBy: @blockedBy
       blockerFor: @blockerFor
-      complete: @complete
+      status: @status
+      hashtags: @hashtags
     if @_id then taskData._id = @_id
     if @recurs then taskData.recurs = @recurs
     taskData
+
+  process: ->
+    newTags = @title.match hashtagPattern
+    if newTags then for tag in newTags
+      tag = tag.replace /^#/, ''
+      if tag not in @hashtags
+        @hashtags.push tag
+    newTags = @description.match hashtagPattern
+    if newTags then for tag in newTags
+      tag = tag.replace /^#/, ''
+      if tag not in @hashtags
+        @hashtags.push tag
 
   ###*
     @method save

@@ -5,11 +5,24 @@ block content
     = " "+user.username
   div(style="padding-bottom:20px")
     .input-group
-      input.form-control#entry(style="width:100%", autocomplete="false")
+      input.form-control#entry(autocomplete="false")
       .input-group-btn: a.btn.btn-success#crunch
         .glyphicon.glyphicon-play
   .row
-    .col-md-6#results
+    .col-md-6#results-1
+    .col-md-6#results-2
+  #taskEditor.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+    .modal-dialog
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+          h4.modal-title Modal title
+        .modal-body
+          | ...
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+          button.btn.btn-primary(type='button') Save changes
+
 
 
 

@@ -3,7 +3,10 @@ var addPanel, deleteTodo, submitEntry;
 addPanel = function(panel) {
   var $panel, $timeago;
   $panel = $(panel);
-  $("#results").prepend($panel);
+  var $r1 = $('#results-1');
+  var $r2 = $('#results-2');
+  var $results = $r1.height()<=$r2.height()?$r1:$r2;
+  $results.prepend($panel);
   $panel.show("slow");
   $timeago = $panel.find(".timeago");
   $timeago.text(new Date($timeago.attr("title")).toLocaleString());
@@ -57,7 +60,7 @@ submitEntry = function() {
 };
 
 deleteTodo = function(id) {
-  alert("deleting #" + id);
+
   return $.ajax({
     type: "POST",
     url: "/ajax/todo/delete",

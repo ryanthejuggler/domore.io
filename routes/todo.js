@@ -31,9 +31,10 @@
       task = new Task({
         title: req.body.entry,
         owner: req.user._id,
-        ts: new Date,
+        created: new Date,
         location: req.body.location
       });
+      task.process();
       return task.save(function(err) {
         if (err) {
           res.json({
@@ -48,10 +49,11 @@
           data: task.title,
           panel: ajaxUI.makePanel({
             task: task,
+            id: task._id,
+            content: task.description,
             title: task.title,
-            content: task.title,
             hashtags: task.hashtags,
-            ts: task.ts
+            ts: task.type === 'event' ? task.start : task.end
           })
         });
       });
@@ -80,7 +82,7 @@
               _results.push(ajaxUI.makePanel({
                 task: task,
                 id: task._id,
-                content: JSON.stringify(task),
+                content: task.description,
                 title: task.title,
                 hashtags: task.hashtags,
                 ts: task.type === 'event' ? task.start : task.end
@@ -99,13 +101,19 @@
         return;
       }
       return Task.getByUserAndId(req.user, req.body.id, function(err, snip) {
+        if (!snip) {
+          res.json({
+            error: 'no such task'
+          });
+          return;
+        }
         return snip.del(function(err) {
           if (err) {
             res.json({
               error: err
             });
+            return;
           }
-          return;
           return res.json({
             ok: true
           });

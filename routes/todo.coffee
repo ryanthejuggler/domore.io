@@ -20,8 +20,9 @@ module.exports = (app) ->
     task = new Task
       title: req.body.entry
       owner: req.user._id
-      ts: new Date
+      created: new Date
       location: req.body.location
+    task.process()
     task.save (err) ->
       if err
         res.json
@@ -34,10 +35,11 @@ module.exports = (app) ->
         data: task.title
         panel: ajaxUI.makePanel
           task: task
+          id: task._id
+          content: task.description
           title: task.title
-          content: task.title
           hashtags: task.hashtags
-          ts: task.ts
+          ts: if task.type is 'event' then task.start else task.end
 
 
   app.get '/ajax/todo/get', (req, res) ->
@@ -53,7 +55,7 @@ module.exports = (app) ->
         panels: for task in data then ajaxUI.makePanel
           task: task
           id: task._id
-          content: JSON.stringify task
+          content: task.description
           title: task.title
           hashtags: task.hashtags
           ts: if task.type is 'event' then task.start else task.end
@@ -65,11 +67,15 @@ module.exports = (app) ->
         error: 'not logged in'
       return
     Task.getByUserAndId req.user, req.body.id, (err, snip) ->
+      unless snip
+        res.json
+          error: 'no such task'
+        return
       snip.del (err)->
         if err
           res.json
             error: err
-        return
+          return
         res.json
           ok: true
 

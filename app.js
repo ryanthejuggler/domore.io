@@ -37,7 +37,7 @@ Module dependencies.
 
   RedisStore = require('connect-redis')(express);
 
-  app.set("port", process.env.PORT || 3000);
+  app.set("port", process.env.PORT || 6677);
 
   app.set("views", __dirname + "/views");
 
@@ -118,8 +118,7 @@ Module dependencies.
   }
 
   app.locals({
-    version: packageMeta.version,
-    timeago: require('timeago')
+    version: packageMeta.version
   });
 
   app.get("/", function(req, res) {

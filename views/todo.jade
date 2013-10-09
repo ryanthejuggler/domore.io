@@ -18,10 +18,23 @@ block content
           button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
           h4.modal-title Modal title
         .modal-body
-          | ...
+          div: strong Title
+          div: input#todo-title(type='text')
+          div: strong Description
+          div: textarea#todo-desc
+          div: strong Start
+          div
+            input#todo-start-date(type='date')
+            input#todo-start-time(type='time')
+          div: strong End
+          div
+            input#todo-end-date(type='date')
+            input#todo-end-time(type='time')
+          div: strong Blocked by
+            input#todo-blocked-by(type='text')
         .modal-footer
           button.btn.btn-default(type='button', data-dismiss='modal') Close
-          button.btn.btn-primary(type='button') Save changes
+          button.btn.btn-primary(type='button') Ok
 
 
 

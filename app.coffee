@@ -20,7 +20,7 @@ RedisStore = require('connect-redis')(express)
 
 
 # all environments
-app.set "port", process.env.PORT or 3000
+app.set "port", process.env.PORT or 6677
 app.set "views", __dirname + "/views"
 app.set "view engine", "jade"
 
@@ -75,7 +75,6 @@ app.use express.errorHandler()  if "development" is app.get("env")
 
 app.locals
   version: packageMeta.version
-  timeago: require 'timeago'
 
 app.get "/", (req, res) ->
   if req.user
